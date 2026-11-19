@@ -48,12 +48,62 @@ param legalContactChannel string = 'Canale segnalazioni in-app Siculingo'
 @description('Whether hearts consumption is active on the learning path.')
 param heartsConsumptionEnabled bool = true
 
+@description('GitHub repository (owner/name) authorized via OIDC federated credential for deployments.')
+param githubRepository string = 'lcatarcia/Siculingo'
+
 var uniqueSuffix = substring(uniqueString(resourceGroup().id, appNamePrefix, environmentName), 0, 6)
 var appServicePlanName = '${appNamePrefix}-${environmentName}-plan-${uniqueSuffix}'
 var webAppName = '${appNamePrefix}-${environmentName}-app-${uniqueSuffix}'
 var sqlServerName = '${appNamePrefix}-${environmentName}-sql-${uniqueSuffix}'
 var sqlDatabaseName = 'Siculingo_${environmentName}'
+var runtimeIdentityName = '${appNamePrefix}-${environmentName}-web-id-${uniqueSuffix}'
+var deployIdentityName = '${appNamePrefix}-${environmentName}-gha-id-${uniqueSuffix}'
 var isFreeWebTier = appServiceSku == 'F1'
+
+var websiteContributorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772')
+var sqlServerContributorRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '6d8ee4ec-f05a-4a1d-8b00-a9b17e38b437')
+
+resource runtimeIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: runtimeIdentityName
+  location: location
+}
+
+resource deployIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' = {
+  name: deployIdentityName
+  location: location
+}
+
+resource deployOidcCredential 'Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2023-01-31' = {
+  parent: deployIdentity
+  name: 'github-actions-${environmentName}'
+  properties: {
+    issuer: 'https://token.actions.githubusercontent.com'
+    subject: 'repo:${githubRepository}:environment:${environmentName}'
+    audiences: [
+      'api://AzureADTokenExchange'
+    ]
+  }
+}
+
+resource deployWebContributorRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(resourceGroup().id, deployIdentity.id, websiteContributorRoleId)
+  scope: resourceGroup()
+  properties: {
+    principalId: deployIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: websiteContributorRoleId
+  }
+}
+
+resource deploySqlContributorRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(resourceGroup().id, deployIdentity.id, sqlServerContributorRoleId)
+  scope: resourceGroup()
+  properties: {
+    principalId: deployIdentity.properties.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: sqlServerContributorRoleId
+  }
+}
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: appServicePlanName
@@ -132,7 +182,10 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
   location: location
   kind: 'app,linux'
   identity: {
-    type: 'SystemAssigned'
+    type: 'UserAssigned'
+    userAssignedIdentities: {
+      '${runtimeIdentity.id}': {}
+    }
   }
   properties: {
     serverFarmId: appServicePlan.id
@@ -150,6 +203,10 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         {
           name: 'ASPNETCORE_ENVIRONMENT'
           value: 'Production'
+        }
+        {
+          name: 'AZURE_CLIENT_ID'
+          value: runtimeIdentity.properties.clientId
         }
         {
           name: 'WEBSITE_RUN_FROM_PACKAGE'
@@ -184,7 +241,7 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
         {
           name: 'Database'
           type: 'SQLAzure'
-          connectionString: 'Server=tcp:${sqlServer.properties.fullyQualifiedDomainName},1433;Initial Catalog=${sqlDatabaseName};Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;ConnectRetryCount=5;ConnectRetryInterval=10;Authentication=Active Directory Managed Identity;'
+          connectionString: 'Server=tcp:${sqlServer.properties.fullyQualifiedDomainName},1433;Initial Catalog=${sqlDatabaseName};Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;ConnectRetryCount=5;ConnectRetryInterval=10;Authentication=Active Directory Managed Identity;User Id=${runtimeIdentity.properties.clientId};'
         }
       ]
     }
@@ -193,6 +250,10 @@ resource webApp 'Microsoft.Web/sites@2023-12-01' = {
 
 output webAppName string = webApp.name
 output webAppUrl string = 'https://${webApp.properties.defaultHostName}'
-output webAppManagedIdentityPrincipalId string = webApp.identity.principalId
+output runtimeIdentityName string = runtimeIdentity.name
+output runtimeIdentityClientId string = runtimeIdentity.properties.clientId
+output deployIdentityName string = deployIdentity.name
+output deployIdentityClientId string = deployIdentity.properties.clientId
+output sqlServerName string = sqlServer.name
 output sqlServerFqdn string = sqlServer.properties.fullyQualifiedDomainName
 output sqlDatabaseName string = sqlDatabase.name

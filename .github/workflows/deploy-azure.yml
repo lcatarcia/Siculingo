@@ -72,17 +72,34 @@ jobs:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      - name: Apply controlled EF Core migrations (never auto-run by web replicas)
+      - name: Apply controlled EF Core migrations (with scoped runner firewall rule)
         shell: pwsh
         env:
           ASPNETCORE_ENVIRONMENT: Production
           ConnectionStrings__Database: "Server=tcp:${{ vars.AZURE_SQL_SERVER_FQDN }},1433;Initial Catalog=${{ vars.AZURE_SQL_DATABASE_NAME }};Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;ConnectRetryCount=5;ConnectRetryInterval=10;Authentication=Active Directory Default;"
         run: |
-          dotnet ./release-bundle/app/Siculingo.Api.dll --migrate-only
-          if ($LASTEXITCODE -ne 0) { throw 'Controlled database migration failed.' }
-          if ('${{ inputs.seed_approved_pilot }}' -eq 'true') {
-            dotnet ./release-bundle/app/Siculingo.Api.dll --seed-approved-pilot="./release-bundle/app/content/pilot-greetings.v1.json"
-            if ($LASTEXITCODE -ne 0) { throw 'Approved pilot publication failed.' }
+          $ruleName = "gha-${{ github.run_id }}-${{ github.run_attempt }}"
+          $runnerIp = (Invoke-RestMethod -Uri 'https://api.ipify.org' -TimeoutSec 15).Trim()
+          az sql server firewall-rule create `
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" `
+            --server "${{ vars.AZURE_SQL_SERVER_NAME }}" `
+            --name "$ruleName" `
+            --start-ip-address "$runnerIp" `
+            --end-ip-address "$runnerIp" `
+            --output none
+          try {
+            dotnet ./release-bundle/app/Siculingo.Api.dll --migrate-only
+            if ($LASTEXITCODE -ne 0) { throw 'Controlled database migration failed.' }
+            if ('${{ inputs.seed_approved_pilot }}' -eq 'true') {
+              dotnet ./release-bundle/app/Siculingo.Api.dll --seed-approved-pilot="./release-bundle/app/content/pilot-greetings.v1.json"
+              if ($LASTEXITCODE -ne 0) { throw 'Approved pilot publication failed.' }
+            }
+          } finally {
+            az sql server firewall-rule delete `
+              --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" `
+              --server "${{ vars.AZURE_SQL_SERVER_NAME }}" `
+              --name "$ruleName" `
+              --output none
           }
       - name: Deploy ZIP package to Azure App Service Linux (F1 / B1)
         shell: pwsh

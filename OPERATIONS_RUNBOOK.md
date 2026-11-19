@@ -44,42 +44,48 @@ Lo script esegue in sequenza:
 
 ## 3. Primo provisioning Azure (solo dopo autorizzazione)
 
-### 3.1 Validazione template Bicep (offline, già verificata)
+### 3.1 Validazione template Bicep (senza generare file ARM temporanei)
 
 ```powershell
-az bicep build --file .\infra\main.bicep
-az bicep build-params --file .\infra\main.bicepparam
+az bicep build --file .\infra\main.bicep --stdout > $null
+az bicep build-params --file .\infra\main.bicepparam --stdout > $null
 ```
 
-### 3.2 Creazione risorse e identità gestita
+### 3.2 Creazione risorse e identità gestite (`rg-siculingo-beta`, `westeurope`)
 
-1. Impostare in `infra\main.bicepparam` i valori reali di `entraSqlAdminLogin` e `entraSqlAdminObjectId` (ottenibile con `az ad signed-in-user show --query "{upn:userPrincipalName, objectId:id}"`) e completare i riferimenti del titolare in `legalControllerSummary` e `legalPrivacyContact` prima dell'apertura al pubblico.
-2. Creare il resource group (es. `rg-siculingo-beta` in `italynorth` o `westeurope`) e applicare il template:
+1. Esportare nella sessione PowerShell il proprio UPN e Object ID Microsoft Entra (senza salvarli nei file versionati):
    ```powershell
-   az group create --name rg-siculingo-beta --location italynorth
+   $admin = az ad signed-in-user show --query "{upn:userPrincipalName, id:id}" | ConvertFrom-Json
+   $env:SQL_ENTRA_ADMIN_LOGIN = $admin.upn
+   $env:SQL_ENTRA_ADMIN_OBJECT_ID = $admin.id
+   ```
+2. Creare il resource group `rg-siculingo-beta` su `westeurope` e applicare il template (che crea anche le due User-Assigned Managed Identity `*-web-id-*` per il runtime e `*-gha-id-*` federata OIDC per GitHub Actions):
+   ```powershell
+   az group create --name rg-siculingo-beta --location westeurope
    az deployment group create --resource-group rg-siculingo-beta --template-file .\infra\main.bicep --parameters .\infra\main.bicepparam
    ```
-3. Connettersi una sola volta al database Azure SQL come amministratore Microsoft Entra ed eseguire `infra\grant-webapp-identity.sql` (sostituendo `<WEB_APP_NAME>` con l'output `webAppName` del deploy Bicep) per concedere `db_datareader`, `db_datawriter` e `db_ddladmin` alla System-Assigned Managed Identity della Web App.
+3. Connettersi una sola volta al database `Siculingo_beta` come amministratore Microsoft Entra ed eseguire `infra\grant-webapp-identity.sql` (valorizzando nome e `clientId` di entrambe le Managed Identity restituiti dagli output Bicep) per concedere `db_datareader` / `db_datawriter` al runtime web e `db_datareader` / `db_datawriter` / `db_ddladmin` all'identità OIDC di deploy, senza richiedere `Directory Readers` sul server SQL.
 
 ### 3.3 Federazione OIDC per GitHub Actions su `lcatarcia/Siculingo` (zero segreti statici)
 
 Repository di riferimento: [`https://github.com/lcatarcia/Siculingo`](https://github.com/lcatarcia/Siculingo) (ambiente GitHub Actions: **`beta`**).
 
-1. Creare una User-Assigned Managed Identity (o App Registration) di deploy con ruolo `Website Contributor` sul resource group `rg-siculingo-beta` (e accesso Microsoft Entra al database SQL per `--migrate-only`) e associare la credenziale federata OIDC con:
+1. Il template `infra\main.bicep` crea automaticamente la User-Assigned Managed Identity di deploy con ruoli `Website Contributor` e `SQL Server Contributor` su `rg-siculingo-beta` e credenziale federata OIDC:
    - **Issuer:** `https://token.actions.githubusercontent.com`
    - **Subject:** `repo:lcatarcia/Siculingo:environment:beta`
    - **Audience:** `api://AzureADTokenExchange`
-2. Creare l'ambiente `beta` su `lcatarcia/Siculingo` e configurare le variabili richieste da `.github\workflows\deploy-azure.yml`:
+2. Configurare l'ambiente `beta` su `lcatarcia/Siculingo` con le variabili richieste da `.github\workflows\deploy-azure.yml`:
    ```powershell
    gh api --method PUT repos/lcatarcia/Siculingo/environments/beta
-   gh variable set AZURE_CLIENT_ID        -R lcatarcia/Siculingo --env beta --body "<client-id>"
-   gh variable set AZURE_TENANT_ID        -R lcatarcia/Siculingo --env beta --body "<tenant-id>"
-   gh variable set AZURE_SUBSCRIPTION_ID  -R lcatarcia/Siculingo --env beta --body "<subscription-id>"
-   gh variable set AZURE_RESOURCE_GROUP   -R lcatarcia/Siculingo --env beta --body "rg-siculingo-beta"
-   gh variable set AZURE_WEBAPP_NAME      -R lcatarcia/Siculingo --env beta --body "<webAppName>"
-   gh variable set AZURE_WEBAPP_URL       -R lcatarcia/Siculingo --env beta --body "https://<webAppName>.azurewebsites.net"
-   gh variable set AZURE_SQL_SERVER_FQDN  -R lcatarcia/Siculingo --env beta --body "<sqlServerFqdn>"
-   gh variable set AZURE_SQL_DATABASE_NAME -R lcatarcia/Siculingo --env beta --body "Siculingo"
+   gh variable set AZURE_CLIENT_ID         -R lcatarcia/Siculingo --env beta --body "<deployIdentityClientId>"
+   gh variable set AZURE_TENANT_ID         -R lcatarcia/Siculingo --env beta --body "<tenantId>"
+   gh variable set AZURE_SUBSCRIPTION_ID   -R lcatarcia/Siculingo --env beta --body "<subscriptionId>"
+   gh variable set AZURE_RESOURCE_GROUP    -R lcatarcia/Siculingo --env beta --body "rg-siculingo-beta"
+   gh variable set AZURE_WEBAPP_NAME       -R lcatarcia/Siculingo --env beta --body "<webAppName>"
+   gh variable set AZURE_WEBAPP_URL        -R lcatarcia/Siculingo --env beta --body "https://<webAppName>.azurewebsites.net"
+   gh variable set AZURE_SQL_SERVER_NAME   -R lcatarcia/Siculingo --env beta --body "<sqlServerName>"
+   gh variable set AZURE_SQL_SERVER_FQDN   -R lcatarcia/Siculingo --env beta --body "<sqlServerFqdn>"
+   gh variable set AZURE_SQL_DATABASE_NAME -R lcatarcia/Siculingo --env beta --body "Siculingo_beta"
    ```
 3. Avviare manualmente il workflow da GitHub Actions (`Deploy Beta to Azure App Service`) o da CLI:
    ```powershell

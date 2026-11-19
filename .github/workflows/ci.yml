@@ -1,0 +1,83 @@
+name: Build and verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend/siculingo-web
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/siculingo-web/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - run: npm run lint
+
+  backend-and-contracts:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/siculingo-web/package-lock.json
+      - name: Locate SQL Server LocalDB
+        shell: pwsh
+        run: |
+          if (-not (Get-Command SqlLocalDB -ErrorAction SilentlyContinue)) {
+            $localdb = @('170', '160', '150') |
+              ForEach-Object { "$env:ProgramFiles\Microsoft SQL Server\$_\Tools\Binn" } |
+              Where-Object { Test-Path -LiteralPath "$_\SqlLocalDB.exe" } |
+              Select-Object -First 1
+            if (-not $localdb) { throw 'SQL Server LocalDB is required on this Windows runner.' }
+            $localdb >> $env:GITHUB_PATH
+          }
+      - name: Migrate isolated database and run SQL integration tests
+        shell: pwsh
+        run: .\tools\setup-local.ps1 -InstanceName SiculingoCI -DatabaseName Siculingo_CI -RunTests
+      - run: dotnet build Siculingo.sln --configuration Release --no-restore
+      - run: npm ci --no-audit --no-fund
+        working-directory: frontend/siculingo-web
+      - name: Verify generated OpenAPI contracts
+        shell: pwsh
+        run: |
+          $assembly = (Resolve-Path '.\src\Siculingo.Api\bin\Release\net10.0\Siculingo.Api.dll').Path
+          $api = Start-Process dotnet -ArgumentList "`"$assembly`" --urls http://127.0.0.1:5080 --environment Development" -PassThru
+          try {
+            $ready = $false
+            for ($attempt = 0; $attempt -lt 30; $attempt++) {
+              if ($api.HasExited) { throw 'API exited before becoming ready.' }
+              try {
+                $response = Invoke-WebRequest 'http://127.0.0.1:5080/health/ready' -SkipHttpErrorCheck
+                if ($response.StatusCode -eq 200) { $ready = $true; break }
+              } catch [System.Net.Http.HttpRequestException] {
+                if ($attempt -eq 29) { throw }
+              }
+              Start-Sleep -Seconds 1
+            }
+            if (-not $ready) { throw 'API readiness timed out.' }
+            Push-Location '.\frontend\siculingo-web'
+            try {
+              npm run api:types
+              if ($LASTEXITCODE -ne 0) { throw 'OpenAPI generation failed.' }
+            } finally { Pop-Location }
+            git diff --exit-code -- .\frontend\siculingo-web\src\shared\api\schema.d.ts
+            if ($LASTEXITCODE -ne 0) { throw 'Generated API types are out of date.' }
+          } finally {
+            if (-not $api.HasExited) { Stop-Process -Id $api.Id }
+          }

@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "reviewStatus": "approved-by-owner",
+  "editorialNote": "APPROVATA DAL COMMITTENTE (18 novembre 2026) per l'unita pilota di saluti e presentazioni. Gli indici delle soluzioni partono da zero. Le varianti ortografiche estese e l'audio arriveranno nelle tappe successive.",
+  "lessons": [
+    {
+      "id": "5a100001-0000-4000-8000-000000000001",
+      "title": "Ciao e arrivederci",
+      "objective": "Riconoscere saluti informali, saluti legati al momento della giornata e un congedo.",
+      "reviewNote": "Confermare ciau, bongiornu, bona sira, bona notti e a prestu; distinguere il saluto all'incontro dal congedo. Accenti e separazione delle parole da concordare.",
+      "exercises": [
+        { "kind": "choice", "id": "saluti-01", "prompt": "Quale proposta significa ciao?", "explanation": "Nella bozza ciau e il saluto informale, utilizzabile fra persone in confidenza.", "options": ["Grazzi", "Ciau", "Mi chiamu"], "correctOptionIndex": 1 },
+        { "kind": "choice", "id": "saluti-02", "prompt": "Come saluteresti qualcuno al mattino?", "explanation": "Bongiornu e la proposta da verificare per buongiorno; bona notti non e il saluto del mattino.", "options": ["Bona notti", "A prestu", "Bongiornu"], "correctOptionIndex": 2 },
+        { "kind": "matching", "id": "saluti-03", "prompt": "Abbina ciascun saluto al significato italiano.", "explanation": "Ogni coppia distingue una diversa situazione di saluto.", "pairs": [{ "left": "Ciau", "right": "Ciao" }, { "left": "Bona sira", "right": "Buonasera" }, { "left": "Bona notti", "right": "Buonanotte" }] },
+        { "kind": "matching", "id": "saluti-04", "prompt": "Abbina il saluto alla situazione.", "explanation": "A prestu e qui usato come congedo, mentre bongiornu accompagna l'incontro al mattino.", "pairs": [{ "left": "Bongiornu", "right": "Incontro al mattino" }, { "left": "A prestu", "right": "Ci rivedremo presto" }, { "left": "Bona notti", "right": "Congedo prima di dormire" }] },
+        { "kind": "guidedTranslation", "id": "saluti-05", "prompt": "Componi la proposta per buonasera.", "explanation": "La bozza separa bona e sira: la convenzione grafica deve essere confermata.", "tokens": ["notti", "sira", "Bona"], "answerTokens": ["Bona", "sira"] },
+        { "kind": "guidedTranslation", "id": "saluti-06", "prompt": "Componi la proposta per a presto.", "explanation": "A prestu esprime l'augurio di rivedersi presto.", "tokens": ["prestu", "A", "sira"], "answerTokens": ["A", "prestu"] },
+        { "kind": "fillBlank", "id": "saluti-07", "prompt": "Completa il saluto della sera.", "explanation": "Bona sira corrisponde alla proposta di buonasera.", "textWithGap": "Bona ___", "options": ["grazzi", "sira", "chiamu"], "correctOptionIndex": 1 },
+        { "kind": "fillBlank", "id": "saluti-08", "prompt": "Completa il congedo prima di dormire.", "explanation": "Bona notti e proposta per buonanotte.", "textWithGap": "Bona ___", "options": ["prestu", "ciau", "notti"], "correctOptionIndex": 2 }
+      ]
+    },
+    {
+      "id": "5a100002-0000-4000-8000-000000000002",
+      "title": "Come ti chiami?",
+      "objective": "Chiedere il nome, dire il proprio nome e riconoscere una presentazione semplice.",
+      "reviewNote": "Confermare comu ti chiami, mi chiamu, piaciri e sugnu nel parlato catanese. I nomi propri sono esempi, non varianti lessicali; non introdurre il trattamento formale senza revisione.",
+      "exercises": [
+        { "kind": "choice", "id": "nomi-01", "prompt": "Quale proposta chiede il nome?", "explanation": "Comu ti chiami? e la domanda proposta per come ti chiami?.", "options": ["Comu ti chiami?", "Bona notti", "Grazzi"], "correctOptionIndex": 0 },
+        { "kind": "choice", "id": "nomi-02", "prompt": "Come dice Anna il proprio nome nella bozza?", "explanation": "Mi chiamu introduce il nome della persona che parla.", "options": ["Ti chiami Anna", "Mi chiamu Anna", "A prestu Anna"], "correctOptionIndex": 1 },
+        { "kind": "matching", "id": "nomi-03", "prompt": "Abbina le espressioni della presentazione.", "explanation": "La domanda, la risposta e il saluto di presentazione svolgono ruoli diversi.", "pairs": [{ "left": "Comu ti chiami?", "right": "Come ti chiami?" }, { "left": "Mi chiamu Luca", "right": "Mi chiamo Luca" }, { "left": "Piaciri", "right": "Piacere" }] },
+        { "kind": "matching", "id": "nomi-04", "prompt": "Abbina ogni frase alla persona che si presenta.", "explanation": "Mi chiamu resta uguale; cambia il nome proprio.", "pairs": [{ "left": "Mi chiamu Anna", "right": "Mi chiamo Anna" }, { "left": "Mi chiamu Sara", "right": "Mi chiamo Sara" }, { "left": "Mi chiamu Marco", "right": "Mi chiamo Marco" }] },
+        { "kind": "guidedTranslation", "id": "nomi-05", "prompt": "Componi mi chiamo Anna.", "explanation": "La sequenza proposta e mi, chiamu, nome proprio.", "tokens": ["Anna", "Mi", "chiamu", "ti"], "answerTokens": ["Mi", "chiamu", "Anna"] },
+        { "kind": "guidedTranslation", "id": "nomi-06", "prompt": "Componi come ti chiami?.", "explanation": "La domanda proposta si compone con comu, ti e chiami.", "tokens": ["chiami?", "Comu", "mi", "ti"], "answerTokens": ["Comu", "ti", "chiami?"] },
+        { "kind": "fillBlank", "id": "nomi-07", "prompt": "Completa la presentazione: mi chiamo Sara.", "explanation": "Chiamu e la forma proposta dopo mi.", "textWithGap": "Mi ___ Sara.", "options": ["chiami", "chiamu", "sira"], "correctOptionIndex": 1 },
+        { "kind": "fillBlank", "id": "nomi-08", "prompt": "Completa la domanda sul nome.", "explanation": "Comu apre la domanda proposta sul nome.", "textWithGap": "___ ti chiami?", "options": ["Piaciri", "Grazzi", "Comu"], "correctOptionIndex": 2 }
+      ]
+    },
+    {
+      "id": "5a100003-0000-4000-8000-000000000003",
+      "title": "Come stai?",
+      "objective": "Chiedere come sta un interlocutore, rispondere in modo semplice e ricambiare la domanda.",
+      "reviewNote": "Verificare comu stai, staju beni, accussi accussi e e tu. La grafia di staju/staiu e gli accenti di accussi non sono approvati; concordarli prima di qualsiasi correzione automatica.",
+      "exercises": [
+        { "kind": "choice", "id": "stare-01", "prompt": "Quale proposta significa come stai?", "explanation": "Comu stai? e la domanda proposta in un contesto informale.", "options": ["Comu ti chiami?", "Comu stai?", "A prestu"], "correctOptionIndex": 1 },
+        { "kind": "choice", "id": "stare-02", "prompt": "Scegli la proposta per sto bene.", "explanation": "Staju beni e una forma provvisoria da verificare nel catanese scelto per il corso.", "options": ["Staju beni", "Bona sira", "Mi chiamu"], "correctOptionIndex": 0 },
+        { "kind": "matching", "id": "stare-03", "prompt": "Abbina domanda e risposte al loro significato.", "explanation": "Le risposte proposte esprimono due stati diversi.", "pairs": [{ "left": "Comu stai?", "right": "Come stai?" }, { "left": "Staju beni", "right": "Sto bene" }, { "left": "Accussi accussi", "right": "Cosi cosi" }] },
+        { "kind": "matching", "id": "stare-04", "prompt": "Abbina le brevi espressioni di conversazione.", "explanation": "E tu? ricambia la domanda; grazzi esprime ringraziamento.", "pairs": [{ "left": "E tu?", "right": "Domanda ricambiata" }, { "left": "Grazzi", "right": "Ringraziamento" }, { "left": "Staju beni", "right": "Risposta positiva" }] },
+        { "kind": "guidedTranslation", "id": "stare-05", "prompt": "Componi sto bene.", "explanation": "La bozza usa staju beni; la grafia richiede revisione.", "tokens": ["beni", "Staju", "chiami"], "answerTokens": ["Staju", "beni"] },
+        { "kind": "guidedTranslation", "id": "stare-06", "prompt": "Componi come stai?.", "explanation": "Comu seguito da stai? forma la domanda proposta.", "tokens": ["stai?", "Grazzi", "Comu"], "answerTokens": ["Comu", "stai?"] },
+        { "kind": "fillBlank", "id": "stare-07", "prompt": "Completa la risposta positiva.", "explanation": "Beni completa la proposta per sto bene.", "textWithGap": "Staju ___, grazzi.", "options": ["sira", "beni", "chiamu"], "correctOptionIndex": 1 },
+        { "kind": "fillBlank", "id": "stare-08", "prompt": "Ricambia la domanda: e tu?", "explanation": "Tu indica l'interlocutore a cui viene ricambiata la domanda.", "textWithGap": "E ___?", "options": ["tu", "notti", "prestu"], "correctOptionIndex": 0 }
+      ]
+    },
+    {
+      "id": "5a100004-0000-4000-8000-000000000004",
+      "title": "Le parole gentili",
+      "objective": "Riconoscere un ringraziamento, una richiesta cortese, una risposta e una scusa informale.",
+      "reviewNote": "Confermare grazzi, pi favuri, di nenti e scusa nel registro informale. Non trattare scusa come forma formale universale; valutare varianti catanesi e usi reali.",
+      "exercises": [
+        { "kind": "choice", "id": "cortesia-01", "prompt": "Quale proposta useresti per ringraziare?", "explanation": "Grazzi e la proposta per grazie.", "options": ["Ciau", "Grazzi", "Bona notti"], "correctOptionIndex": 1 },
+        { "kind": "choice", "id": "cortesia-02", "prompt": "Quale proposta rende una richiesta piu cortese?", "explanation": "Pi favuri e proposto per per favore.", "options": ["A prestu", "Mi chiamu", "Pi favuri"], "correctOptionIndex": 2 },
+        { "kind": "matching", "id": "cortesia-03", "prompt": "Abbina le formule di cortesia.", "explanation": "Le coppie distinguono richiesta, ringraziamento e risposta.", "pairs": [{ "left": "Grazzi", "right": "Grazie" }, { "left": "Pi favuri", "right": "Per favore" }, { "left": "Di nenti", "right": "Di niente" }] },
+        { "kind": "matching", "id": "cortesia-04", "prompt": "Abbina la formula alla funzione.", "explanation": "Scusa e qui limitato al contesto informale; le alternative formali richiedono revisione.", "pairs": [{ "left": "Scusa", "right": "Scusa informale" }, { "left": "Di nenti", "right": "Risposta a un grazie" }, { "left": "Pi favuri", "right": "Richiesta cortese" }] },
+        { "kind": "guidedTranslation", "id": "cortesia-05", "prompt": "Componi per favore.", "explanation": "La proposta si compone di pi e favuri.", "tokens": ["favuri", "Pi", "nenti"], "answerTokens": ["Pi", "favuri"] },
+        { "kind": "guidedTranslation", "id": "cortesia-06", "prompt": "Componi di niente.", "explanation": "Di nenti e la risposta proposta dopo un ringraziamento.", "tokens": ["nenti", "Di", "favuri"], "answerTokens": ["Di", "nenti"] },
+        { "kind": "fillBlank", "id": "cortesia-07", "prompt": "Completa per favore.", "explanation": "Favuri completa la formula proposta pi favuri.", "textWithGap": "Pi ___", "options": ["sira", "favuri", "chiamu"], "correctOptionIndex": 1 },
+        { "kind": "fillBlank", "id": "cortesia-08", "prompt": "Completa la risposta a grazie.", "explanation": "Nenti completa la formula di nenti.", "textWithGap": "Di ___", "options": ["nenti", "tu", "prestu"], "correctOptionIndex": 0 }
+      ]
+    },
+    {
+      "id": "5a100005-0000-4000-8000-000000000005",
+      "title": "La prima chiacchierata",
+      "objective": "Riprendere saluto, presentazione, stato personale e congedo in un breve incontro informale.",
+      "reviewNote": "Le frasi ricombinano solo le forme delle lezioni precedenti. Confermare coerenza di grafia e registro nell'intero dialogo; evitare di pubblicare questo ripasso prima di aver revisionato le quattro lezioni precedenti.",
+      "exercises": [
+        { "kind": "choice", "id": "dialogo-01", "prompt": "Anna dice: mi chiamu Anna. A quale domanda risponde?", "explanation": "Una presentazione del nome risponde alla domanda comu ti chiami?.", "options": ["Comu stai?", "Comu ti chiami?", "Bona notti"], "correctOptionIndex": 1 },
+        { "kind": "choice", "id": "dialogo-02", "prompt": "Quale risposta e coerente con la domanda: comu stai?", "explanation": "Staju beni, grazzi risponde sullo stato personale, non sul nome.", "options": ["Mi chiamu Luca", "A prestu", "Staju beni, grazzi"], "correctOptionIndex": 2 },
+        { "kind": "matching", "id": "dialogo-03", "prompt": "Abbina ogni battuta alla risposta coerente.", "explanation": "Le risposte rispettano la funzione di domanda o ringraziamento.", "pairs": [{ "left": "Comu ti chiami?", "right": "Mi chiamu Sara" }, { "left": "Comu stai?", "right": "Staju beni" }, { "left": "Grazzi", "right": "Di nenti" }] },
+        { "kind": "matching", "id": "dialogo-04", "prompt": "Abbina le battute al momento della conversazione.", "explanation": "L'incontro distingue apertura, presentazione e congedo.", "pairs": [{ "left": "Ciau", "right": "Saluto informale iniziale" }, { "left": "Mi chiamu Anna", "right": "Presentazione del nome" }, { "left": "A prestu", "right": "Congedo" }] },
+        { "kind": "guidedTranslation", "id": "dialogo-05", "prompt": "Componi mi chiamo Luca.", "explanation": "Si riprende la struttura mi chiamu seguita dal nome proprio.", "tokens": ["Luca", "Mi", "chiamu", "stai"], "answerTokens": ["Mi", "chiamu", "Luca"] },
+        { "kind": "guidedTranslation", "id": "dialogo-06", "prompt": "Componi sto bene, grazie.", "explanation": "La bozza riprende la risposta positiva con ringraziamento.", "tokens": ["grazzi", "Staju", "beni,", "notti"], "answerTokens": ["Staju", "beni,", "grazzi"] },
+        { "kind": "fillBlank", "id": "dialogo-07", "prompt": "Completa la domanda per conoscere il nome.", "explanation": "Chiami completa la domanda comu ti chiami?.", "textWithGap": "Comu ti ___?", "options": ["chiamu", "chiami", "beni"], "correctOptionIndex": 1 },
+        { "kind": "fillBlank", "id": "dialogo-08", "prompt": "Completa il congedo alla fine della chiacchierata.", "explanation": "A prestu conclude l'incontro con l'idea di rivedersi presto.", "textWithGap": "A ___!", "options": ["nenti", "sira", "prestu"], "correctOptionIndex": 2 }
+      ]
+    }
+  ]
+}

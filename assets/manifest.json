@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "status": "sample-approved",
+  "rights": "User-supplied artwork; ownership/license not independently verified.",
+  "primaryVisualReference": "asset-pack-v1.png",
+  "coordinateConvention": "Source pixels, left/top inclusive, right/bottom exclusive.",
+  "processing": "Local Pillow/NumPy; connected silhouette, explicit background-hole seeds and book-page contour; edge matting against row-wise background; no upscaling.",
+  "requirements": [
+    "Python 3",
+    "Pillow",
+    "NumPy"
+  ],
+  "sources": [
+    {
+      "file": "assets\\source\\brand-board.png",
+      "sha256": "4dd066a5b0889f7581ab3f80ea31181ae71bbaefd9d6ad4eefafc7e6446413e1",
+      "pixels": [
+        1536,
+        1024
+      ],
+      "description": "First brand board; supplied twice with identical bytes."
+    },
+    {
+      "file": "assets\\source\\character-design-kit.png",
+      "sha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "pixels": [
+        1536,
+        1024
+      ],
+      "description": "Character Design Kit with UI icons along the bottom."
+    },
+    {
+      "file": "assets\\source\\asset-pack-v1.png",
+      "sha256": "f1f6e5fdff4a6cffe440628bae34e6dd89cbfdc2efc7468c83bc7b44338ddbcb",
+      "pixels": [
+        1536,
+        1024
+      ],
+      "description": "Approved primary palette and visual reference."
+    }
+  ],
+  "assets": [
+    {
+      "id": "ficodi-front",
+      "status": "sample-approved",
+      "source": "brand-board.png",
+      "cropLTRBExclusive": [
+        809,
+        18,
+        995,
+        261
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\mascot\\ficodi-front.png",
+      "canvasPixels": [
+        224,
+        256
+      ],
+      "suggestedCssPixelsAt2x": [
+        112,
+        128
+      ],
+      "usage": "Small mascot beside a greeting; not a full-screen hero.",
+      "backgroundSeedsInCrop": [],
+      "preservePolygonsInCrop": [],
+      "sha256": "54217589c05595d246e0c4b1138a0a7bf0fd9b53b49dd5405fb7f46b30529cfb",
+      "subjectBoundsInCrop": [
+        6,
+        6,
+        181,
+        240
+      ],
+      "subjectPixels": [
+        175,
+        234
+      ],
+      "subjectOffsetInCanvas": [
+        24,
+        10
+      ],
+      "resampled": false,
+      "approvedOn": "2026-11-17"
+    },
+    {
+      "id": "ficodi-study",
+      "status": "sample-approved",
+      "source": "brand-board.png",
+      "cropLTRBExclusive": [
+        478,
+        779,
+        652,
+        960
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\mascot\\ficodi-study.png",
+      "canvasPixels": [
+        224,
+        256
+      ],
+      "suggestedCssPixelsAt2x": [
+        112,
+        128
+      ],
+      "usage": "Reading pose for lesson introductions.",
+      "backgroundSeedsInCrop": [
+        [
+          136,
+          79
+        ],
+        [
+          139,
+          100
+        ]
+      ],
+      "preservePolygonsInCrop": [
+        [
+          [
+            70,
+            127
+          ],
+          [
+            71,
+            124
+          ],
+          [
+            79,
+            122
+          ],
+          [
+            88,
+            122
+          ],
+          [
+            98,
+            124
+          ],
+          [
+            110,
+            128
+          ],
+          [
+            119,
+            132
+          ],
+          [
+            121,
+            127
+          ],
+          [
+            126,
+            122
+          ],
+          [
+            133,
+            118
+          ],
+          [
+            142,
+            115
+          ],
+          [
+            151,
+            112
+          ],
+          [
+            154,
+            114
+          ],
+          [
+            155,
+            117
+          ],
+          [
+            150,
+            121
+          ],
+          [
+            141,
+            125
+          ],
+          [
+            133,
+            130
+          ],
+          [
+            125,
+            136
+          ],
+          [
+            120,
+            137
+          ],
+          [
+            108,
+            133
+          ],
+          [
+            96,
+            131
+          ],
+          [
+            82,
+            130
+          ],
+          [
+            70,
+            130
+          ]
+        ]
+      ],
+      "sha256": "e8eea1d7846fe3ac06c3ac1589aaa63abb293b0c5d81b036352539561eeac0d7",
+      "subjectBoundsInCrop": [
+        6,
+        8,
+        163,
+        179
+      ],
+      "subjectPixels": [
+        157,
+        171
+      ],
+      "subjectOffsetInCanvas": [
+        33,
+        73
+      ],
+      "resampled": false,
+      "approvedOn": "2026-11-17"
+    },
+    {
+      "id": "icon-trophy",
+      "status": "sample-approved",
+      "source": "character-design-kit.png",
+      "cropLTRBExclusive": [
+        285,
+        936,
+        350,
+        991
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\trophy.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "usage": "Small leaderboard icon; inspect the native detail before approval.",
+      "backgroundSeedsInCrop": [
+        [
+          15,
+          18
+        ],
+        [
+          50,
+          18
+        ]
+      ],
+      "preservePolygonsInCrop": [],
+      "sha256": "dcbd5a80c425f841f7dc8652f98bf9bd7843737b26ad3e35b3a8ebc8c3ce746d",
+      "subjectBoundsInCrop": [
+        7,
+        5,
+        59,
+        51
+      ],
+      "subjectPixels": [
+        52,
+        46
+      ],
+      "subjectOffsetInCanvas": [
+        14,
+        22
+      ],
+      "resampled": false,
+      "approvedOn": "2026-11-17"
+    }
+  ]
+}

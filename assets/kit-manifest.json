@@ -1,0 +1,601 @@
+{
+  "schemaVersion": 1,
+  "status": "awaiting-visual-approval",
+  "approvedSamplesManifest": "assets\\manifest.json",
+  "notes": "Native raster exports, no upscaling. New artwork is not yet approved.",
+  "assets": [
+    {
+      "id": "logo",
+      "status": "awaiting-visual-approval",
+      "source": "asset-pack-v1.png",
+      "sourceSha256": "f1f6e5fdff4a6cffe440628bae34e6dd89cbfdc2efc7468c83bc7b44338ddbcb",
+      "cropLTRBExclusive": [
+        470,
+        872,
+        748,
+        953
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\brand\\siculingo-logo.png",
+      "canvasPixels": [
+        304,
+        112
+      ],
+      "suggestedCssPixelsAt2x": [
+        152,
+        56
+      ],
+      "sha256": "5177493c6ad01d96c0d8f2f7b7a9364028ae844d10c84ad02a42ab6726f3df58",
+      "processingOptions": {
+        "minComponentSize": 6,
+        "edgeKernel": 3
+      },
+      "subjectBoundsInCrop": [
+        5,
+        2,
+        259,
+        79
+      ],
+      "subjectPixels": [
+        254,
+        77
+      ],
+      "subjectOffsetInCanvas": [
+        25,
+        23
+      ],
+      "resampled": false
+    },
+    {
+      "id": "ficodi-happy",
+      "status": "awaiting-visual-approval",
+      "source": "brand-board.png",
+      "sourceSha256": "4dd066a5b0889f7581ab3f80ea31181ae71bbaefd9d6ad4eefafc7e6446413e1",
+      "cropLTRBExclusive": [
+        562,
+        344,
+        719,
+        486
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\mascot\\ficodi-happy.png",
+      "canvasPixels": [
+        176,
+        160
+      ],
+      "suggestedCssPixelsAt2x": [
+        88,
+        80
+      ],
+      "sha256": "319ef1b132f9b6886b9909e170e3adee6f03f94d101cc22a963aa671d42d00ce",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        6,
+        6,
+        150,
+        141
+      ],
+      "subjectPixels": [
+        144,
+        135
+      ],
+      "subjectOffsetInCanvas": [
+        16,
+        13
+      ],
+      "resampled": false
+    },
+    {
+      "id": "ficodi-proud",
+      "status": "awaiting-visual-approval",
+      "source": "brand-board.png",
+      "sourceSha256": "4dd066a5b0889f7581ab3f80ea31181ae71bbaefd9d6ad4eefafc7e6446413e1",
+      "cropLTRBExclusive": [
+        882,
+        533,
+        1031,
+        683
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\mascot\\ficodi-proud.png",
+      "canvasPixels": [
+        176,
+        176
+      ],
+      "suggestedCssPixelsAt2x": [
+        88,
+        88
+      ],
+      "sha256": "d3958ee8e95755bfdf0f9bcc6f7e10c20e9ff04098837fe98808528f766e56f4",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        5,
+        4,
+        139,
+        145
+      ],
+      "subjectPixels": [
+        134,
+        141
+      ],
+      "subjectOffsetInCanvas": [
+        21,
+        23
+      ],
+      "resampled": false
+    },
+    {
+      "id": "ficodi-victory",
+      "status": "awaiting-visual-approval",
+      "source": "brand-board.png",
+      "sourceSha256": "4dd066a5b0889f7581ab3f80ea31181ae71bbaefd9d6ad4eefafc7e6446413e1",
+      "cropLTRBExclusive": [
+        972,
+        768,
+        1158,
+        956
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\mascot\\ficodi-victory.png",
+      "canvasPixels": [
+        224,
+        224
+      ],
+      "suggestedCssPixelsAt2x": [
+        112,
+        112
+      ],
+      "sha256": "1f2cb74c3e4186bd741b1e80c1b24fc86c4a1921f3b82000815c0a6baa6d7601",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        8,
+        2,
+        175,
+        171
+      ],
+      "subjectPixels": [
+        167,
+        169
+      ],
+      "subjectOffsetInCanvas": [
+        28,
+        43
+      ],
+      "resampled": false
+    },
+    {
+      "id": "home",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        32,
+        935,
+        96,
+        993
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\home.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "sha256": "259f38009a6ba12aef895cd85568df1255470ac880cb82fdde86c98e51edd644",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        8,
+        9,
+        55,
+        52
+      ],
+      "subjectPixels": [
+        47,
+        43
+      ],
+      "subjectOffsetInCanvas": [
+        16,
+        25
+      ],
+      "resampled": false
+    },
+    {
+      "id": "book",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        109,
+        936,
+        177,
+        992
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\book.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "sha256": "788ab5cef7179521f3e766b8c78f9dac58ff29d8523045b0dc569e7ebdff94f7",
+      "processingOptions": {
+        "edgeKernel": 3
+      },
+      "subjectBoundsInCrop": [
+        11,
+        10,
+        59,
+        48
+      ],
+      "subjectPixels": [
+        48,
+        38
+      ],
+      "subjectOffsetInCanvas": [
+        16,
+        30
+      ],
+      "resampled": false
+    },
+    {
+      "id": "practice",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        201,
+        935,
+        263,
+        993
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\practice.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "sha256": "df01675395b65e6723763e262acb2fcb545c5d2f6ca9d4f3c731a67f82f43666",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        5,
+        12,
+        56,
+        49
+      ],
+      "subjectPixels": [
+        51,
+        37
+      ],
+      "subjectOffsetInCanvas": [
+        14,
+        31
+      ],
+      "resampled": false
+    },
+    {
+      "id": "flame",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        457,
+        934,
+        511,
+        992
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\flame.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "sha256": "905d8581889a9b8bf70b1364e7216353124ea1895d3108380c428a23752b151d",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        6,
+        5,
+        45,
+        52
+      ],
+      "subjectPixels": [
+        39,
+        47
+      ],
+      "subjectOffsetInCanvas": [
+        20,
+        21
+      ],
+      "resampled": false
+    },
+    {
+      "id": "heart",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        527,
+        935,
+        584,
+        993
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\heart.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "sha256": "1fe3f87c473d5b0edef737358394dc080db867ecb0214b28deac95fb68b96285",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        7,
+        12,
+        50,
+        50
+      ],
+      "subjectPixels": [
+        43,
+        38
+      ],
+      "subjectOffsetInCanvas": [
+        18,
+        30
+      ],
+      "resampled": false
+    },
+    {
+      "id": "friends",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        703,
+        935,
+        760,
+        992
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\friends.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "sha256": "ba30f160778a518198a9cd758e23491128ff14ca0bea912e6b87522934ca6a2a",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        9,
+        12,
+        48,
+        45
+      ],
+      "subjectPixels": [
+        39,
+        33
+      ],
+      "subjectOffsetInCanvas": [
+        20,
+        35
+      ],
+      "resampled": false
+    },
+    {
+      "id": "badge-shield",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        866,
+        938,
+        933,
+        1007
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\badges\\shield.png",
+      "canvasPixels": [
+        96,
+        96
+      ],
+      "suggestedCssPixelsAt2x": [
+        48,
+        48
+      ],
+      "sha256": "272ca262928e7889003cc68e200c9eb6043c517753a5981d2cb5117cc19a4792",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        6,
+        3,
+        63,
+        64
+      ],
+      "subjectPixels": [
+        57,
+        61
+      ],
+      "subjectOffsetInCanvas": [
+        19,
+        23
+      ],
+      "resampled": false
+    },
+    {
+      "id": "badge-star",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        943,
+        938,
+        1001,
+        1003
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\badges\\star.png",
+      "canvasPixels": [
+        96,
+        96
+      ],
+      "suggestedCssPixelsAt2x": [
+        48,
+        48
+      ],
+      "sha256": "4419c2435b700a54d6a65aa32e014dc266093348b1528ddb539e1958c6e315d8",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        2,
+        3,
+        55,
+        58
+      ],
+      "subjectPixels": [
+        53,
+        55
+      ],
+      "subjectOffsetInCanvas": [
+        21,
+        29
+      ],
+      "resampled": false
+    },
+    {
+      "id": "badge-check",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        1148,
+        938,
+        1204,
+        998
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\badges\\check.png",
+      "canvasPixels": [
+        96,
+        96
+      ],
+      "suggestedCssPixelsAt2x": [
+        48,
+        48
+      ],
+      "sha256": "5f03c60d4a886fa59f21f78a0d98bbd36cc8d4d002b3222d7797d69b6d69f9fd",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        3,
+        8,
+        45,
+        53
+      ],
+      "subjectPixels": [
+        42,
+        45
+      ],
+      "subjectOffsetInCanvas": [
+        27,
+        39
+      ],
+      "resampled": false
+    },
+    {
+      "id": "badge-xp",
+      "status": "awaiting-visual-approval",
+      "source": "character-design-kit.png",
+      "sourceSha256": "c0ead3377e667ac23568e45722a069cbb019ff3bee94dabf10e5375d7584954e",
+      "cropLTRBExclusive": [
+        1206,
+        937,
+        1270,
+        1003
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\badges\\xp.png",
+      "canvasPixels": [
+        96,
+        96
+      ],
+      "suggestedCssPixelsAt2x": [
+        48,
+        48
+      ],
+      "sha256": "8eeb5d9794513b22395d583e07837e3714c251456d34a7dcac80c721fafaad7d",
+      "processingOptions": {},
+      "subjectBoundsInCrop": [
+        8,
+        4,
+        54,
+        57
+      ],
+      "subjectPixels": [
+        46,
+        53
+      ],
+      "subjectOffsetInCanvas": [
+        25,
+        31
+      ],
+      "resampled": false
+    },
+    {
+      "id": "goal",
+      "status": "awaiting-visual-approval",
+      "source": "asset-pack-v1.png",
+      "sourceSha256": "f1f6e5fdff4a6cffe440628bae34e6dd89cbfdc2efc7468c83bc7b44338ddbcb",
+      "cropLTRBExclusive": [
+        1070,
+        865,
+        1124,
+        921
+      ],
+      "file": "frontend\\siculingo-web\\public\\assets\\icons\\goal.png",
+      "canvasPixels": [
+        80,
+        80
+      ],
+      "suggestedCssPixelsAt2x": [
+        40,
+        40
+      ],
+      "sha256": "85735d99c4f1ae36a129641219590332d23784ab718a8bd3ee8bfd44df86ee8e",
+      "processingOptions": {
+        "edgeKernel": 3
+      },
+      "subjectBoundsInCrop": [
+        10,
+        6,
+        46,
+        43
+      ],
+      "subjectPixels": [
+        36,
+        37
+      ],
+      "subjectOffsetInCanvas": [
+        22,
+        31
+      ],
+      "resampled": false
+    }
+  ],
+  "fonts": [
+    {
+      "family": "Nunito",
+      "file": "frontend\\siculingo-web\\public\\assets\\fonts\\nunito-variable.ttf",
+      "licenseFile": "frontend\\siculingo-web\\public\\assets\\fonts\\nunito-OFL.txt",
+      "source": "https://github.com/google/fonts/tree/main/ofl/nunito",
+      "sha256": "bb55a5ca5c2042335b3991af27c4d0705d0ef41cac6164ac737fd8f2a1e85207"
+    },
+    {
+      "family": "Inter",
+      "file": "frontend\\siculingo-web\\public\\assets\\fonts\\inter-variable.ttf",
+      "licenseFile": "frontend\\siculingo-web\\public\\assets\\fonts\\inter-OFL.txt",
+      "source": "https://github.com/google/fonts/tree/main/ofl/inter",
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    }
+  ]
+}

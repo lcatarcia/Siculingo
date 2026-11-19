@@ -1,0 +1,114 @@
+name: Deploy Beta to Azure App Service
+
+on:
+  workflow_dispatch:
+    inputs:
+      seed_approved_pilot:
+        description: 'Publish approved pilot unit (content/pilot-greetings.v1.json) after migration'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  verify:
+    name: Verify Frontend & SQL Server Suite
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/siculingo-web/package-lock.json
+      - name: Locate SQL Server LocalDB
+        shell: pwsh
+        run: |
+          if (-not (Get-Command SqlLocalDB -ErrorAction SilentlyContinue)) {
+            $localdb = @('170', '160', '150') |
+              ForEach-Object { "$env:ProgramFiles\Microsoft SQL Server\$_\Tools\Binn" } |
+              Where-Object { Test-Path -LiteralPath "$_\SqlLocalDB.exe" } |
+              Select-Object -First 1
+            if (-not $localdb) { throw 'SQL Server LocalDB is required on this Windows runner.' }
+            $localdb >> $env:GITHUB_PATH
+          }
+      - name: Run isolated SQL Server tests
+        shell: pwsh
+        run: .\tools\setup-local.ps1 -InstanceName SiculingoCI -DatabaseName Siculingo_CI -RunTests
+      - name: Assemble release package (API + same-origin PWA wwwroot)
+        shell: pwsh
+        run: .\tools\publish-release.ps1
+      - uses: actions/upload-artifact@v7
+        with:
+          name: siculingo-release
+          path: |
+            artifacts/publish/siculingo-release.zip
+            artifacts/publish/app/
+          retention-days: 14
+
+  deploy-beta:
+    name: Controlled Migration & App Service Zip Deploy
+    if: github.repository == 'lcatarcia/Siculingo'
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: beta
+    steps:
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+      - uses: actions/download-artifact@v8
+        with:
+          name: siculingo-release
+          path: release-bundle
+      - name: Azure Login via OIDC Federated Credential (no client secrets)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Apply controlled EF Core migrations (never auto-run by web replicas)
+        shell: pwsh
+        env:
+          ASPNETCORE_ENVIRONMENT: Production
+          ConnectionStrings__Database: "Server=tcp:${{ vars.AZURE_SQL_SERVER_FQDN }},1433;Initial Catalog=${{ vars.AZURE_SQL_DATABASE_NAME }};Encrypt=True;TrustServerCertificate=False;Connection Timeout=60;ConnectRetryCount=5;ConnectRetryInterval=10;Authentication=Active Directory Default;"
+        run: |
+          dotnet ./release-bundle/app/Siculingo.Api.dll --migrate-only
+          if ($LASTEXITCODE -ne 0) { throw 'Controlled database migration failed.' }
+          if ('${{ inputs.seed_approved_pilot }}' -eq 'true') {
+            dotnet ./release-bundle/app/Siculingo.Api.dll --seed-approved-pilot="./release-bundle/app/content/pilot-greetings.v1.json"
+            if ($LASTEXITCODE -ne 0) { throw 'Approved pilot publication failed.' }
+          }
+      - name: Deploy ZIP package to Azure App Service Linux (F1 / B1)
+        shell: pwsh
+        run: |
+          az webapp deploy `
+            --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" `
+            --name "${{ vars.AZURE_WEBAPP_NAME }}" `
+            --src-path "./release-bundle/siculingo-release.zip" `
+            --type zip
+      - name: Verify live HTTPS liveness and SQL readiness
+        shell: pwsh
+        run: |
+          $baseUrl = "${{ vars.AZURE_WEBAPP_URL }}".TrimEnd('/')
+          $ready = $false
+          for ($i = 1; $i -le 18; $i++) {
+            try {
+              $live = Invoke-WebRequest -Uri "$baseUrl/health/live" -SkipHttpErrorCheck -TimeoutSec 15
+              $rdy  = Invoke-WebRequest -Uri "$baseUrl/health/ready" -SkipHttpErrorCheck -TimeoutSec 30
+              Write-Host "Attempt ${i}: live=$($live.StatusCode), ready=$($rdy.StatusCode)"
+              if ($live.StatusCode -eq 200 -and $rdy.StatusCode -eq 200) {
+                $ready = $true
+                break
+              }
+            } catch {
+              Write-Host "Attempt ${i} waiting for App Service / Serverless SQL wake-up: $($_.Exception.Message)"
+            }
+            Start-Sleep -Seconds 10
+          }
+          if (-not $ready) { throw 'Post-deploy /health/ready verification failed.' }

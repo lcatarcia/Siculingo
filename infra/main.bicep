@@ -51,6 +51,9 @@ param heartsConsumptionEnabled bool = true
 @description('GitHub repository (owner/name) authorized via OIDC federated credential for deployments.')
 param githubRepository string = 'lcatarcia/Siculingo'
 
+@description('GitHub immutable repository claim (owner@ownerId/repo@repoId) emitted by GitHub Actions OIDC.')
+param githubImmutableRepositoryClaim string = 'lcatarcia@70380170/Siculingo@1464002381'
+
 var uniqueSuffix = substring(uniqueString(resourceGroup().id, appNamePrefix, environmentName), 0, 6)
 var appServicePlanName = '${appNamePrefix}-${environmentName}-plan-${uniqueSuffix}'
 var webAppName = '${appNamePrefix}-${environmentName}-app-${uniqueSuffix}'
@@ -79,6 +82,18 @@ resource deployOidcCredential 'Microsoft.ManagedIdentity/userAssignedIdentities/
   properties: {
     issuer: 'https://token.actions.githubusercontent.com'
     subject: 'repo:${githubRepository}:environment:${environmentName}'
+    audiences: [
+      'api://AzureADTokenExchange'
+    ]
+  }
+}
+
+resource deployOidcImmutableCredential 'Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2023-01-31' = if (!empty(githubImmutableRepositoryClaim)) {
+  parent: deployIdentity
+  name: 'github-actions-${environmentName}-immutable'
+  properties: {
+    issuer: 'https://token.actions.githubusercontent.com'
+    subject: 'repo:${githubImmutableRepositoryClaim}:environment:${environmentName}'
     audiences: [
       'api://AzureADTokenExchange'
     ]

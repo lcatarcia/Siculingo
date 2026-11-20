@@ -125,7 +125,9 @@ public static class PilotDraftImporter
 
         var sections = existing.Sections;
         var units = sections.SelectMany(section => section.Units).ToList();
-        var lessons = units.SelectMany(unit => unit.Lessons).OrderBy(lesson => lesson.SortOrder).ToList();
+        var pilotLessonIds = draft.Lessons.Select(lesson => lesson.Id).ToHashSet();
+        var lessons = units.SelectMany(unit => unit.Lessons)
+            .Where(lesson => pilotLessonIds.Contains(lesson.Id)).OrderBy(lesson => lesson.SortOrder).ToList();
         if (sections.Count != 1 || units.Count != 1 || lessons.Count != draft.Lessons.Count
             || lessons.Where((lesson, index) => lesson.Id != draft.Lessons[index].Id).Any())
             throw new InvalidOperationException("Existing pilot structure does not match the approved pilot lessons.");
@@ -138,6 +140,11 @@ public static class PilotDraftImporter
         for (var index = 0; index < lessons.Count; index++)
         {
             var entity = lessons[index];
+            // The bootstrap must not replace editorial revisions or undo an explicit unpublish.
+            if (entity.LastEditedAtUtc is not null || entity.ApprovedByUserId is not null
+                || (!entity.IsPublished && entity.PublishedAtUtc is not null))
+                continue;
+
             var approvedLesson = draft.Lessons[index];
             var serialized = SerializeLesson(approvedLesson);
             if (entity.Title != approvedLesson.Title) { entity.Title = approvedLesson.Title; changed = true; }

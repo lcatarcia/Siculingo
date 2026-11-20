@@ -35,6 +35,14 @@ public sealed class AdminContentAndModerationTests : IAsyncLifetime
         await PilotDraftImporter.PublishApprovedAsync(db, approvedJson);
     }
 
+    private async Task ReseedPilotAsync()
+    {
+        await using var db = factory.CreateDbContext();
+        var approvedJson = await File.ReadAllTextAsync(
+            Path.Combine(AppContext.BaseDirectory, "Fixtures", "pilot-greetings.v1.json"));
+        Assert.False(await PilotDraftImporter.PublishApprovedAsync(db, approvedJson));
+    }
+
     public async Task DisposeAsync()
     {
         await factory.DeleteTestDatabaseAsync();
@@ -75,19 +83,20 @@ public sealed class AdminContentAndModerationTests : IAsyncLifetime
         var editorCatalog = await editorClient.GetFromJsonAsync<EditorialCatalogResponse>("/api/v1/admin/catalog");
         Assert.NotNull(editorCatalog);
         var targetUnitId = editorCatalog.Courses[0].Sections[0].Units[0].Id;
+        var proverbsJson = await File.ReadAllTextAsync(
+            Path.Combine(AppContext.BaseDirectory, "Fixtures", "Editorial", "06-proverbi.json"));
+        var proverbs = PilotDraft.ParseLesson(proverbsJson);
 
         using var createdDraftResp = await PostCsrfAsync(
             editorClient,
             $"/api/v1/admin/units/{targetUnitId}/lessons",
-            new CreateLessonDraftRequest(
-                "Bozza editoriale non approvata",
-                "Verificare il blocco pubblicazione senza revisione linguistica",
-                "Da verificare con parlante catanese"));
+            new CreateLessonDraftRequest(proverbs.Title, proverbs.Objective, proverbs.ReviewNote, proverbsJson));
         createdDraftResp.EnsureSuccessStatusCode();
         var createdLesson = await createdDraftResp.Content.ReadFromJsonAsync<EditorialLessonSummaryDto>();
         Assert.NotNull(createdLesson);
         Assert.False(createdLesson.IsPublished);
         Assert.Equal("draft", createdLesson.EditorialState);
+        Assert.Equal(6, createdLesson.SortOrder);
 
         using var editorReviewDenied = await PostCsrfAsync(
             editorClient,
@@ -136,6 +145,11 @@ public sealed class AdminContentAndModerationTests : IAsyncLifetime
         Assert.NotNull(publishedSummary);
         Assert.True(publishedSummary.IsPublished);
         Assert.Equal("approved", publishedSummary.EditorialState);
+
+        await ReseedPilotAsync();
+        using var publishedDetail = await adminClient.GetAsync($"/api/v1/admin/lessons/{createdLesson.Id}");
+        publishedDetail.EnsureSuccessStatusCode();
+        Assert.True((await publishedDetail.Content.ReadFromJsonAsync<EditorialLessonDetailResponse>())!.Metadata.IsPublished);
     }
 
     [Fact]
@@ -189,6 +203,11 @@ public sealed class AdminContentAndModerationTests : IAsyncLifetime
         Assert.Equal("draft", afterSave.Metadata.EditorialState);
         Assert.True(afterSave.Metadata.HasUnpublishedChanges);
         Assert.Equal(originalTitle, afterSave.Metadata.PublishedOrCurrentTitle);
+
+        await ReseedPilotAsync();
+        var preserved = await adminClient.GetFromJsonAsync<EditorialLessonDetailResponse>($"/api/v1/admin/lessons/{Lesson1Id}");
+        Assert.Equal(updatedDraft.Title, preserved!.Draft!.Title);
+        Assert.Equal("draft", preserved.Metadata.EditorialState);
 
         // Republishing before re-approval is rejected with 409
         using var blockedRepublish = await PostCsrfAsync(adminClient, $"/api/v1/admin/lessons/{Lesson1Id}/publish", new { });

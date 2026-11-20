@@ -89,6 +89,14 @@ Dopo l'assegnazione del ruolo occorre effettuare nuovamente il login nel browser
 
 Il comando Python genera un documento HTML locale leggibile/stampabile con consegne, soluzioni e note di revisione, non servito dal frontend ne dalle API studenti.
 
+### Prime lezioni riviste e proverbi
+
+Le bozze in `content\editorial` aumentano la difficoltà delle prime tre lezioni: prima si ricava il significato dal contesto, poi si riusano le stesse parole in scene nuove. La lezione sui proverbi va dopo **La prima chiacchierata** e allena significato letterale, uso nel contesto e ricostruzione delle frasi. Interfaccia e formati restano invariati.
+
+In **Redazione**, apri le prime tre lezioni di **Saluti e presentazioni** e incolla nel campo JSON il file corrispondente (`01-saluti-in-giro.json`, `02-presentazioni.json`, `03-reazioni.json`). Per `06-proverbi.json`, crea prima una nuova lezione nella stessa unità e poi incolla il JSON nella sua bozza. Salva e sottoponi le quattro bozze alla revisione: saranno visibili agli studenti solo dopo approvazione e pubblicazione da parte di un `Admin`. Il seed del pilota non sostituisce le bozze o revisioni salvate in Redazione e non rimuove le lezioni aggiunte.
+
+Riferimenti per la revisione: [LiveUnict](https://catania.liveuniversity.it/2018/12/02/camurria-amuninni-parole-modi-dire-siciliani/) per *amunìnni*, *peri peri*, *camurrìa* e *avaia*; [Operation Sicily](https://www.operationsicily.com/sicilian-language) per *talè* e *carusu*; [Sicily Insider](https://sicily-insider.com/sicilian-phrases/) per *Cu nesci, arrinesci*; [Be Sicily Mag](https://www.besicilymag.it/2026/07/varie/proverbio-siciliano-della-settimana-cu-avi-lingua-passa-u-mari/) per *Cu avi lingua passa u mari*; [Il Fatto di Catania](https://ilfattodicatania.it/2024/05/acqua-ravanti-e-ventu-darreri-il-motto-del-catanese-che-ha-scoperto-il-segreto-per-vivere-meglio.html) per il detto catanese.
+
 ## Contratti e verifiche
 
 Con API locale avviata, dalla cartella frontend:

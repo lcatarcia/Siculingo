@@ -1,0 +1,16 @@
+{
+  "id": "5a100001-0000-4000-8000-000000000001",
+  "title": "Saluti in giro per Catania",
+  "objective": "Distinguere un richiamo, un invito a partire e un congedo in un incontro informale.",
+  "reviewNote": "Verificare grafia e registro di talè, amunìnni e peri peri nel parlato catanese; le scene sono esempi originali ambientati a Catania.",
+  "exercises": [
+    { "kind": "choice", "id": "saluti-01", "prompt": "Alla Pescheria, Rosa indica il bancone e dice «Talè!». Che cosa ti chiede di fare?", "explanation": "«Talè!» vuol dire «Guarda!»: Rosa vuole attirare la tua attenzione su qualcosa.", "options": ["Di seguirla all'uscita", "Di guardare il bancone", "Di aspettarla fuori"], "correctOptionIndex": 1 },
+    { "kind": "choice", "id": "saluti-02", "prompt": "I tuoi amici sono pronti a uscire. Quale battuta dà il via alla passeggiata?", "explanation": "«Amunìnni!» è un invito informale a muoversi insieme: «Andiamo!».", "options": ["A prestu!", "Talè!", "Amunìnni!"], "correctOptionIndex": 2 },
+    { "kind": "matching", "id": "saluti-03", "prompt": "Abbina ogni battuta a ciò che vuole fare chi la pronuncia.", "explanation": "«Talè!» richiama l'attenzione, «Amunìnni!» è un invito a partire e «A prestu!» è un congedo.", "pairs": [{ "left": "Talè!", "right": "Farti notare qualcosa" }, { "left": "Amunìnni!", "right": "Mettersi in cammino insieme" }, { "left": "A prestu!", "right": "Salutarti prima di andare via" }] },
+    { "kind": "matching", "id": "saluti-04", "prompt": "In centro senti «peri peri», cioè «in giro». Abbina ogni espressione alla sua situazione.", "explanation": "«Peri peri» indica l'andare in giro; qui descrive una passeggiata senza una meta precisa.", "pairs": [{ "left": "Peri peri", "right": "Passeggi in centro senza una meta precisa" }, { "left": "Talè!", "right": "Indichi la fontana dell'Elefante a un'amica" }, { "left": "A prestu!", "right": "Ti congedi da un amico che rivedrai presto" }] },
+    { "kind": "guidedTranslation", "id": "saluti-05", "prompt": "Invita il gruppo a partire: componi «Andiamo in giro!».", "explanation": "«Amunìnni peri peri!» propone di fare un giro insieme.", "tokens": ["prestu", "peri", "Amunìnni", "peri", "sira"], "answerTokens": ["Amunìnni", "peri", "peri"] },
+    { "kind": "guidedTranslation", "id": "saluti-06", "prompt": "Componi due battute: prima richiama l'attenzione, poi invita tutti a partire.", "explanation": "«Talè!» equivale a «Guarda!»; «Amunìnni!» equivale a «Andiamo!».", "tokens": ["Amunìnni!", "Ciau!", "Talè!", "A prestu!"], "answerTokens": ["Talè!", "Amunìnni!"] },
+    { "kind": "fillBlank", "id": "saluti-07", "prompt": "Un amico vuole farti notare l'Etna tra le nuvole. Completa il suo richiamo.", "explanation": "«Talè!» dirige lo sguardo verso ciò che l'amico ti sta indicando.", "textWithGap": "___! Indica l'Etna con la mano.", "options": ["Amunìnni", "Talè", "A prestu"], "correctOptionIndex": 1 },
+    { "kind": "fillBlank", "id": "saluti-08", "prompt": "Non avete fretta e decidete di andare a zonzo. Completa la proposta.", "explanation": "«Peri peri» aggiunge l'idea di andare in giro, senza una destinazione precisata.", "textWithGap": "Amunìnni ___!", "options": ["a prestu", "bona sira", "peri peri"], "correctOptionIndex": 2 }
+  ]
+}

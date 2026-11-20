@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Siculingo.Api\Siculingo.Api.csproj" />
     <None Include="..\..\content\pilot-greetings.v1.json" Link="Fixtures\pilot-greetings.v1.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\content\editorial\*.json" Link="Fixtures\Editorial\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

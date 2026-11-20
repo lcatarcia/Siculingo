@@ -1,0 +1,16 @@
+{
+  "id": "5a100002-0000-4000-8000-000000000002",
+  "title": "Presentarsi tra amici",
+  "objective": "Capire chi si presenta, chi presenta un'altra persona e che cosa indica carusu.",
+  "reviewNote": "Verificare il registro informale di carusu e la resa di «Sugnu di Catania». «Carusu» non è presentato come esclusivo di Catania.",
+  "exercises": [
+    { "kind": "choice", "id": "nomi-01", "prompt": "Una persona ti dice «Sugnu Luca». Che cosa sta facendo?", "explanation": "«Sugnu» significa «sono»: Luca sta dicendo il proprio nome, non quello di un amico.", "options": ["Si presenta come Luca", "Ti chiede se ti chiami Luca", "Ti presenta una persona di nome Luca"], "correctOptionIndex": 0 },
+    { "kind": "choice", "id": "nomi-02", "prompt": "Anna ti indica «u carusu» accanto alla bancarella. Chi devi cercare?", "explanation": "«U carusu» vuol dire «il ragazzo». Qui Anna ti indica una persona, non una professione.", "options": ["Un signore anziano", "Una ragazza", "Un ragazzo"], "correctOptionIndex": 2 },
+    { "kind": "matching", "id": "nomi-03", "prompt": "Abbina le battute a ciò che scopri in una prima chiacchierata.", "explanation": "«Sugnu» vuol dire «sono»; con «di Catania» indica la provenienza. «Carusu» indica un ragazzo.", "pairs": [{ "left": "Sugnu Anna", "right": "Chi parla si chiama Anna" }, { "left": "Sugnu di Catania", "right": "Chi parla è di Catania" }, { "left": "U carusu", "right": "Il ragazzo di cui si parla" }] },
+    { "kind": "matching", "id": "nomi-04", "prompt": "Abbina ogni domanda o battuta alla risposta adatta.", "explanation": "Una domanda sul nome chiede chi sei; «Di unni si'?», cioè «Di dove sei?», chiede la provenienza.", "pairs": [{ "left": "Comu ti chiami?", "right": "Sugnu Luca" }, { "left": "Di unni si'?", "right": "Sugnu di Catania" }, { "left": "Piaciri!", "right": "Piaciri miu!" }] },
+    { "kind": "guidedTranslation", "id": "nomi-05", "prompt": "Di' da dove vieni, non come ti chiami: «Sono di Catania».", "explanation": "«Sugnu di Catania» indica l'origine; dopo «Sugnu» puoi mettere invece un nome per presentarti.", "tokens": ["Catania", "chiami", "di", "Sugnu", "mi"], "answerTokens": ["Sugnu", "di", "Catania"] },
+    { "kind": "guidedTranslation", "id": "nomi-06", "prompt": "Componi «Guarda il ragazzo!» per indicarlo a chi è con te.", "explanation": "«Talè» richiama lo sguardo e «u carusu» indica chi guardare.", "tokens": ["carusu", "Amunìnni", "u", "Talè", "di"], "answerTokens": ["Talè", "u", "carusu"] },
+    { "kind": "fillBlank", "id": "nomi-07", "prompt": "Luca parla di sé e risponde alla domanda sul nome. Completa la battuta.", "explanation": "Con «Sugnu Luca» si presenta chi sta parlando.", "textWithGap": "___ Luca.", "options": ["Talè", "Sugnu", "Amunìnni"], "correctOptionIndex": 1 },
+    { "kind": "fillBlank", "id": "nomi-08", "prompt": "Ti hanno chiesto da dove vieni. Completa la risposta senza dare il tuo nome.", "explanation": "«Di Catania» indica la città di provenienza; un nome dopo «Sugnu» identificherebbe invece chi parla.", "textWithGap": "Sugnu ___.", "options": ["Sara", "Luca", "di Catania"], "correctOptionIndex": 2 }
+  ]
+}

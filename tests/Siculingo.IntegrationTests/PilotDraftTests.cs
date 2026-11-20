@@ -48,6 +48,24 @@ public sealed class PilotDraftTests
         Assert.Throws<InvalidDataException>(() => PilotDraft.Parse(json.ToJsonString()));
     }
 
+    [Theory]
+    [InlineData("01-saluti-in-giro.json", 1)]
+    [InlineData("02-presentazioni.json", 2)]
+    [InlineData("03-reazioni.json", 3)]
+    [InlineData("06-proverbi.json", 6)]
+    public async Task Revised_lessons_are_valid_editorial_payloads(string fileName, int step)
+    {
+        var lesson = PilotDraft.ParseLesson(await File.ReadAllTextAsync(
+            Path.Combine(AppContext.BaseDirectory, "Fixtures", "Editorial", fileName)));
+        var approvedPilot = PilotDraft.Parse(await ReadDraft());
+        if (step <= approvedPilot.Lessons.Count)
+            Assert.Equal(approvedPilot.Lessons[step - 1].Id, lesson.Id);
+        else
+            Assert.DoesNotContain(approvedPilot.Lessons, original => original.Id == lesson.Id);
+
+        Assert.Equal(4, lesson.Exercises.Select(exercise => exercise.GetType()).Distinct().Count());
+    }
+
     private static Task<string> ReadDraft() =>
         File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Fixtures", "pilot-greetings.v1.json"));
 }
